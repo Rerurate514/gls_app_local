@@ -25,13 +25,13 @@ class AdInfo{
   late final String _title;
   late final String _detail;
   late final int _targetMoneyAmount;
-  int _totalMoneyAmount = 0;
+  late final int _totalMoneyAmount;
   late final Timestamp _deadline;
   late final String _targetIdol;
   late final String _targetPlatform;
   late final String _category;
   late final String _hashtag;
-  int _aiderNumbers = 0;
+  late final int _aiderNumbers;
   late final Timestamp _created;
 
   late Map<String, dynamic> _dbProcessedMap;
@@ -44,27 +44,31 @@ class AdInfo{
     required String imageUrl,
     required String title,
     required String detail,
+    required int totalMoneyAmount,
     required int targetMoneyAmount,
-    required Timestamp deadline,
+    required DateTime deadline,
     required String targetIdol,
     required String targetPlatform,
     required List<String> category,
     required List<String> hashtag,
+    required int aiderNumbers
   }){
     _creater = creater;
     _imageUrl = imageUrl;
     _title = title;
     _detail = detail;
+    _totalMoneyAmount = totalMoneyAmount;
     _targetMoneyAmount = targetMoneyAmount;
-    _deadline = deadline;
+    _deadline = Timestamp.fromDate(deadline);
     _targetIdol = targetIdol;
     _targetPlatform = targetPlatform;
     _category = category.join(",");
     _hashtag = hashtag.join(",");
+    _aiderNumbers = aiderNumbers;
 
     _created = Timestamp.now();
 
-    _adId = _creater + ":" + _title + ":" + _created.toString();
+    _adId = "$_creater:$_title:${_created.toString()}";
 
     _dbProcessedMap = _createDbProcessedMap();
   } 

@@ -1,9 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gls_app/Ad/adController.dart';
+import 'package:gls_app/Ad/logics/adInfo.dart';
+
+import 'package:gls_app/UserControl/UserController.dart';
+import 'package:gls_app/UserControl/logics/UserAuthInfo.dart';
+import 'package:gls_app/UserControl/logics/UserProfile.dart';
+import 'package:gls_app/firebase_options.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -11,12 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     // Replace with actual values
-    options: const FirebaseOptions(
-      apiKey: "api key here",
-      appId: "app id here",
-      messagingSenderId: "messaging id",
-      projectId: "fir-test-58395",
-    ),
+    options: DefaultFirebaseOptions.currentPlatform
   );
   runApp(const MyApp());
 }
@@ -52,49 +55,37 @@ class _MyHomePageState extends State<MyHomePage> {
   Image? _img;
   Text? _text;
 
-  Future<void> _download() async {
-    FirebaseStorage storage = FirebaseStorage.instance;
-    Reference imageRef = storage.ref().child("DL").child(_IMAGE_NAME);
-    
-    String imageUrl = await imageRef.getDownloadURL();
+  void _login() async {
+    final userAuthInfo = UserAuthInfo("rerurateyuto@gmail.com", "rerurate");
+    final userProfile = UserProfile(nameArg: "rerurate", birthdayYearArg: 2000, birthdayMonthArg: 2, sexArg: "male");
+    final userController = UserController(userAuthInfo, userProfile);
 
-    print("image = " + imageUrl);
+    userController.createUserWithEmailAndPassWord();
+    await userController.signInWithEmailAndPassWord();
 
-    // Reference textRef = storage.ref("DL");
-    // var data = await textRef.getData();
+    userController.addToStore();
 
-    setState(() {
-      _img = Image.network(imageUrl);
-      // _text = Text(ascii.decode(data!));
-    });
+    final AdController adController = AdController();
+    final imageUrl = await adController.pickImageAndUpload();
 
-    Directory appDocDir = await getApplicationCacheDirectory();
-    File downloadToFile = File("${appDocDir.path}/download-${_IMAGE_NAME}");
+    print("$imageUrl");
 
-    try{
-      await imageRef.writeToFile(downloadToFile);
-    }
-    catch(e){
-      print(e);
-    }
-  }
+    AdInfo adInfo = AdInfo(
+      creater: userController.profileMap[UserTableColumn.NAME.name], 
+      imageUrl: imageUrl, 
+      title: "このひとを応援したい", 
+      detail: "これはてすと", 
+      totalMoneyAmount: 0, 
+      targetMoneyAmount: 300000, 
+      deadline: DateTime(2024,12,31), 
+      targetIdol: "ターゲット人物名", 
+      targetPlatform: "X", 
+      category: ["IDOL","INTERESTING","CUTE"], 
+      hashtag: ["#IDOL","#INTERESTING","#CUTE"], 
+      aiderNumbers: 0
+    );
 
-  void _upload() async {
-    final pickerFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(pickerFile == null) return;
-
-    File file = File(pickerFile.path);
-    FirebaseStorage storage = FirebaseStorage.instance;
-    try{
-      await storage.ref("UL/upload-pic.png").putFile(file);
-      setState(() {
-        _img = null;
-        _text  = const Text("UploadDone");
-      });
-    }
-    catch(e){
-      print(e);
-    }
+    adController.addToStorage(newAdDataArg: adInfo);
   }
 
   @override
@@ -113,12 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton(
-            onPressed: _download,
-            child: const Icon(Icons.download_outlined),
-          ),
-          FloatingActionButton(
-            onPressed: _upload,
-            child: const Icon(Icons.upload_outlined),
+            onPressed: _login,
+            child: const Icon(Icons. login),
           ),
         ],
       ),

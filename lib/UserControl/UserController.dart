@@ -16,6 +16,8 @@ class UserController{
 
   bool get isLogin => _auth.isLogin;
 
+  Map<String, dynamic> get profileMap => _userProfile.dbProcessedMap;
+
   UserController(this._userAuthInfo, this._userProfile){
     _auth = UserAuthentifier(_userAuthInfo);
   }
