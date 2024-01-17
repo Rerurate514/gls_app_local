@@ -22,19 +22,25 @@ class HashtagListComponents extends StatelessWidget{
   Widget _HashtagWidget(String hashtagArg){
     return Flexible(
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Row(
-            children: [
-              const Icon(Icons.tag),
-              Flexible(child: Text(hashtagArg),)
-            ],
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(16),
           ),
-        )
-      ),
+          child: Padding(
+            padding: const EdgeInsets.all(2),
+            child: Row(
+              children: [
+                const Icon(Icons.tag),
+                Flexible(child: Text(hashtagArg),)
+              ],
+            ),
+          )
+        ),
+      )
     );
   }
 }

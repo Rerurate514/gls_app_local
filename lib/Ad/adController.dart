@@ -19,7 +19,7 @@ class AdController{
 
   Future<void> updateTotalMoneyAmount({required int additionalMoney, required AdInfo existedAdInfo}) async {
     final AdInfo newAdInfo = AdInfo(
-      creater: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER.name], 
+      createrUid: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER_UID.name], 
       imageUrl: existedAdInfo.dbProcessedMap[AdTableColumn.AD_IMAGE_URL.name], 
       title: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TITLE.name], 
       detail: existedAdInfo.dbProcessedMap[AdTableColumn.AD_DETAIL.name], 
@@ -30,7 +30,7 @@ class AdController{
       targetPlatform: existedAdInfo.dbProcessedMap[AdTableColumn.AD_TARGET_PLATFORM.name], 
       category: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CATEGORY.name], 
       hashtag: existedAdInfo.dbProcessedMap[AdTableColumn.AD_HASHTAG.name], 
-      aiderNumbers: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER.name] + 1
+      aiderNumbers: existedAdInfo.dbProcessedMap[AdTableColumn.AD_CREATER_UID.name] + 1
     );
 
     _resistry.update(newAdData: newAdInfo, column: AdTableColumn.AD_TOTAL_MONEY_AMOUNT);

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 enum AdTableColumn{
-  AD_CREATER,
+  AD_CREATER_UID,
   AD_IMAGE_URL,
   AD_TITLE,
   AD_DETAIL,
@@ -20,7 +20,7 @@ enum AdTableColumn{
 class AdInfo{
   late final String _adId;
 
-  late final String _creater;
+  late final String _createrUid;
   late final String _imageUrl;
   late final String _title;
   late final String _detail;
@@ -40,7 +40,7 @@ class AdInfo{
   Map<String, dynamic> get dbProcessedMap => _dbProcessedMap; 
 
   AdInfo({
-    required String creater,
+    required String createrUid,
     required String imageUrl,
     required String title,
     required String detail,
@@ -53,7 +53,7 @@ class AdInfo{
     required List<String> hashtag,
     required int aiderNumbers
   }){
-    _creater = creater;
+    _createrUid = createrUid;
     _imageUrl = imageUrl;
     _title = title;
     _detail = detail;
@@ -68,14 +68,14 @@ class AdInfo{
 
     _created = Timestamp.now();
 
-    _adId = "$_creater:$_title:${_created.toString()}";
+    _adId = "$_createrUid:$_title:${_created.toString()}";
 
     _dbProcessedMap = _createDbProcessedMap();
   } 
 
   Map<String, dynamic> _createDbProcessedMap(){
     return {
-      AdTableColumn.AD_CREATER.name:_creater,
+      AdTableColumn.AD_CREATER_UID.name:_createrUid,
       AdTableColumn.AD_IMAGE_URL.name:_imageUrl,
       AdTableColumn.AD_TITLE.name:_title,
       AdTableColumn.AD_DETAIL.name:_detail,

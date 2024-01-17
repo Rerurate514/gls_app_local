@@ -11,9 +11,11 @@ import 'package:gls_app/Ad/logics/adInfo.dart';
 import 'package:gls_app/UserControl/UserController.dart';
 import 'package:gls_app/UserControl/logics/UserAuthInfo.dart';
 import 'package:gls_app/UserControl/logics/UserProfile.dart';
+import 'package:gls_app/components/AD/showAdCom.dart';
 import 'package:gls_app/firebase_options.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final userController = UserController(userAuthInfo, userProfile);
 
     userController.createUserWithEmailAndPassWord();
-    await userController.signInWithEmailAndPassWord();
+    var user = await userController.signInWithEmailAndPassWord();
 
     userController.addToStore();
 
@@ -71,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print("$imageUrl");
 
     AdInfo adInfo = AdInfo(
-      creater: userController.profileMap[UserTableColumn.NAME.name], 
+      createrUid: user, 
       imageUrl: imageUrl, 
       title: "このひとを応援したい", 
       detail: "これはてすと", 
@@ -91,25 +93,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body:Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if(_img != null) _img!,
-            if(_text != null) _text!,
+            Padding(padding: EdgeInsets.all(100)),
+            AdComponents(
+              title: "test", 
+              hashtagList: ["da","dad","popular","X"], 
+              imageUrl:"https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2F2024-01-13_12.07.43.png?alt=media&token=321335a6-2246-46c1-857b-6d95e08abcf9", 
+              targetMoneyAmount: 50000, 
+              totalMoneyAmount: 20000, 
+              aiderNumbers: 16, 
+              createrNumbers: 2,
+              adTappedCallback: aaaa
+            )
           ],
-        ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FloatingActionButton(
-            onPressed: _login,
-            child: const Icon(Icons. login),
-          ),
-        ],
-      ),
+        )
+      )
     );
   }
+
+  void aaaa() => print("object");
 }
-    

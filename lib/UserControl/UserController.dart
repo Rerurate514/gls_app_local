@@ -33,7 +33,7 @@ class UserController{
       return;
     }
     
-    _userStoreInfo = UserStoreInfo(uidArg: _user!.uid, profileArg: _userProfile);
+    _userStoreInfo = UserStoreInfo(uidArg: _user.uid, profileArg: _userProfile);
   }
 
   void sendPasswordResetEmail() async {
