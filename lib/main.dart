@@ -3,19 +3,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:gls_app/Ad/adController.dart';
-import 'package:gls_app/Ad/logics/adInfo.dart';
-
-import 'package:gls_app/UserControl/UserController.dart';
-import 'package:gls_app/UserControl/logics/UserAuthInfo.dart';
-import 'package:gls_app/UserControl/logics/UserProfile.dart';
-import 'package:gls_app/components/AD/showAdCom.dart';
+import 'package:gls_app/components/adDetailFrag/adDetailFrag.dart';
 import 'package:gls_app/firebase_options.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,67 +41,69 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
-  final _IMAGE_NAME = "GCG_hGObAAAziDK.jpg";
-  Image? _img;
-  Text? _text;
-
-  void _login() async {
-    final userAuthInfo = UserAuthInfo("rerurateyuto@gmail.com", "rerurate");
-    final userProfile = UserProfile(nameArg: "rerurate", birthdayYearArg: 2000, birthdayMonthArg: 2, sexArg: "male");
-    final userController = UserController(userAuthInfo, userProfile);
-
-    userController.createUserWithEmailAndPassWord();
-    var user = await userController.signInWithEmailAndPassWord();
-
-    userController.addToStore();
-
-    final AdController adController = AdController();
-    final imageUrl = await adController.pickImageAndUpload();
-
-    print("$imageUrl");
-
-    AdInfo adInfo = AdInfo(
-      createrUid: user, 
-      imageUrl: imageUrl, 
-      title: "このひとを応援したい", 
-      detail: "これはてすと", 
-      totalMoneyAmount: 0, 
-      targetMoneyAmount: 300000, 
-      deadline: DateTime(2024,12,31), 
-      targetIdol: "ターゲット人物名", 
-      targetPlatform: "X", 
-      category: ["IDOL","INTERESTING","CUTE"], 
-      hashtag: ["#IDOL","#INTERESTING","#CUTE"], 
-      aiderNumbers: 0
-    );
-
-    adController.addToStorage(newAdDataArg: adInfo);
-  }
+  var  title =  "広告詳細コンポーネント";
+  var  hashtagList = ["hashtagList","test","fra"];
+  var  imageUrl = "https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2F2024-01-13_12.07.43.png?alt=media&token=321335a6-2246-46c1-857b-6d95e08abcf9";
+  var  targetMoneyAmount = 50000;
+  var  totalMoneyAmount = 25000;
+  var  aiderNumbers = 3;
+  var  createrNumbers =3;
+  var  creater = "くまぎゆううううううよｐ";
+  var  deadLine = Timestamp.now();
+  var  platform = "Twitter";
+  var  adDetail = "fwaeihfiueh vfnuewhvf8iwefuiewvh uiawehf ubwaegfv u7iguyiwegfyuewg vuiewgf viunewfvwea9hfvuierwauo8 bevwhoivf wabio;fioezyg8n rugiu orzdovi jrziov raiunv";
+  var  aiders = [""];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Center(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.all(100)),
-            AdComponents(
-              title: "test", 
-              hashtagList: ["da","dad","popular","X"], 
-              imageUrl:"https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2F2024-01-13_12.07.43.png?alt=media&token=321335a6-2246-46c1-857b-6d95e08abcf9", 
-              targetMoneyAmount: 50000, 
-              totalMoneyAmount: 20000, 
-              aiderNumbers: 16, 
-              createrNumbers: 2,
-              adTappedCallback: aaaa
-            )
-          ],
-        )
+      body:AdDetailFragment(
+        title: title,
+        adDetail: adDetail, 
+        hashtagList: hashtagList, 
+        imageUrl: imageUrl, 
+        targetMoneyAmount: targetMoneyAmount, 
+        totalMoneyAmount: totalMoneyAmount, 
+        aiderNumbers: aiderNumbers, 
+        createrNumbers: createrNumbers,
+        creater: creater, 
+        platform: platform,
+        deadLine: deadLine,
+        aiders: aiders,
       )
     );
   }
 
   void aaaa() => print("object");
 }
+
+// class _MyHomePageState extends State<MyHomePage> {
+
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body:Center(
+//         child: Column(
+//           children: [
+//             Padding(padding: EdgeInsets.all(100)),
+//             AdComponents(
+//               title: "test", 
+//               hashtagList: ["da","dad","popular","X"], 
+//               imageUrl:"https://firebasestorage.googleapis.com/v0/b/fir-test-58395.appspot.com/o/DL%2F2024-01-13_12.07.43.png?alt=media&token=321335a6-2246-46c1-857b-6d95e08abcf9", 
+//               targetMoneyAmount: 50000, 
+//               totalMoneyAmount: 20000, 
+//               aiderNumbers: 16, 
+//               createrNumbers: 2,
+//               adTappedCallback: aaaa
+//             )
+//           ],
+//         )
+//       )
+//     );
+//   }
+
+//   void aaaa() => print("object");
+// }
