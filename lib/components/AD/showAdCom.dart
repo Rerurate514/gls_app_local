@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gls_app/components/AD/adGoalCom.dart';
-import 'package:gls_app/components/AD/adImgCom.dart';
-import 'package:gls_app/components/AD/adNumbersCom.dart';
-import 'package:gls_app/components/AD/hashtagCom.dart';
+import 'package:gls_app/components/AD/showAdGoalCom.dart';
+import 'package:gls_app/components/AD/showAdImgCom.dart';
+import 'package:gls_app/components/AD/showAdNumbersCom.dart';
+import 'package:gls_app/components/AD/showAdHashtagCom.dart';
 
-class AdComponents extends StatelessWidget{
+class ShowAdComponents extends StatelessWidget{
   late final String _title;
   late final List<String> _hashtags;
   late final String _imageUrl;
@@ -14,7 +14,7 @@ class AdComponents extends StatelessWidget{
   late final int _createrNumbers;
   late final Function _adTappedCallback; 
 
-  AdComponents({
+  ShowAdComponents({
     required String title,
     required List<String> hashtagList,
     required String imageUrl,
@@ -51,21 +51,21 @@ class AdComponents extends StatelessWidget{
               ),
             ),
 
-            HashtagListComponents(_hashtags),
+            ShowAdHashtagListComponents(_hashtags),
             Padding(padding: EdgeInsets.all(size.height * 0.01)),
             Row(
               children: [
-                AdImgComponent(_imageUrl),
+                ShowAdImgComponent(_imageUrl),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AdGaolComponent(
+                      ShowAdGaolComponent(
                         _targetMoneyAmount, 
                         _totalMoneyAmount
                       ),
-                      AdNumberesConponent(
+                      ShowAdNumberesConponent(
                         _aiderNumbers, 
                         _createrNumbers
                       )
