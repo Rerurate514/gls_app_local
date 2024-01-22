@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AdDetailFooterComponent extends StatelessWidget{
-  late final Function _bookmarkTapped;
-  late final Function _moveSupportUIButtonTapped;
+  late final Function() _bookmarkTapped;
+  late final Function() _moveSupportUIButtonTapped;
 
   AdDetailFooterComponent({
-    required Function bookmarkTapped,
-    required Function moveSupportUIButtonTapped
+    required Function() bookmarkTapped,
+    required Function() moveSupportUIButtonTapped
   }){
     _bookmarkTapped = bookmarkTapped;
     _moveSupportUIButtonTapped = moveSupportUIButtonTapped;
@@ -29,7 +29,8 @@ class AdDetailFooterComponent extends StatelessWidget{
           child: Padding(
             padding: EdgeInsets.all(size.width * 0.01),
             child: InkWell(
-              onTap: _bookmarkTapped(),
+              borderRadius: BorderRadius.circular(256),
+              onTap: _bookmarkTapped,
               child: const Icon(Icons.bookmark),
             )
           )
@@ -47,7 +48,8 @@ class AdDetailFooterComponent extends StatelessWidget{
           child: Padding(
             padding: EdgeInsets.all(size.width * 0.01),
             child: InkWell(
-              onTap: _moveSupportUIButtonTapped(),
+              borderRadius: BorderRadius.circular(256),
+              onTap: _moveSupportUIButtonTapped,
               child: const Align(
                 alignment: Alignment.center,
                 child: Text(

@@ -21,6 +21,9 @@ class AdDetailFragment extends StatelessWidget{
   late final String _platform;
   late final Timestamp _deadLine;
   late final List<String> _aiders;
+  late final Function() _movePreviousButtonTapped;
+  late final Function() _bookmarkTapped;
+  late final Function() _moveSupportUIButtonTapped;
 
   AdDetailFragment({
     required String title,
@@ -34,7 +37,10 @@ class AdDetailFragment extends StatelessWidget{
     required String creater,
     required String platform,
     required Timestamp deadLine,
-    required List<String> aiders
+    required List<String> aiders,
+    required Function() movePreviousButtonTapped,
+    required Function() bookmarkTapped,
+    required Function() moveSupportUIButtonTapped,
   }){
     _title = title;
     _adDetail = adDetail;
@@ -48,6 +54,9 @@ class AdDetailFragment extends StatelessWidget{
     _platform = platform;
     _deadLine = deadLine;
     _aiders = aiders;
+    _moveSupportUIButtonTapped = movePreviousButtonTapped;
+    _bookmarkTapped = bookmarkTapped;
+    _moveSupportUIButtonTapped = moveSupportUIButtonTapped;
   }
 
   @override
@@ -56,7 +65,7 @@ class AdDetailFragment extends StatelessWidget{
     return SingleChildScrollView(
       child: Column(
         children: [
-          AdDetailImgComponent(_imageUrl),
+          AdDetailImgComponent(_imageUrl, _movePreviousButtonTapped),
           Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
@@ -86,7 +95,10 @@ class AdDetailFragment extends StatelessWidget{
                 AdDetailAiderComponent(aiders: _aiders),
                 Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
                 AdDetailBorderComponent(),
-                AdDetailFooterComponent(),
+                AdDetailFooterComponent(
+                  bookmarkTapped: _bookmarkTapped, 
+                  moveSupportUIButtonTapped: _moveSupportUIButtonTapped
+                ),
                 Padding(padding: EdgeInsets.symmetric(vertical: size.height * 0.005)),
               ],
             )

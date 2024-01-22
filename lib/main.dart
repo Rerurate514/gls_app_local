@@ -71,6 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
         platform: platform,
         deadLine: deadLine,
         aiders: aiders,
+        movePreviousButtonTapped: aaaa,
+        bookmarkTapped: aaaa,
+        moveSupportUIButtonTapped: aaaa,
       )
     );
   }
